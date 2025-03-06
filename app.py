@@ -44,8 +44,17 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
     return response.choices[0].message.content  # Correct response handling
 
 # Function to generate a PDF
+import pdfkit
+import shutil
+
 def generate_pdf(text, filename):
-    pdfkit.from_string(text, filename)
+    # Check if wkhtmltopdf exists
+    path_wkhtmltopdf = shutil.which("wkhtmltopdf")
+    if path_wkhtmltopdf is None:
+        raise OSError("wkhtmltopdf not found. Install it manually or use an alternative method.")
+
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    pdfkit.from_string(text, filename, configuration=config)
 
 # Streamlit UI
 st.title("📄 AI Job Application Assistant")
