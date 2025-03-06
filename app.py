@@ -3,7 +3,6 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import pdfkit
-from openai import OpenAI
 
 # Function to scrape job details
 def scrape_linkedin_job(url):
@@ -19,11 +18,6 @@ def scrape_linkedin_job(url):
 
 # Function to generate a cover letter
 def generate_cover_letter(job_title, company, job_description, existing_letter):
-    import openai  # Make sure OpenAI is properly imported
-
-import openai  # Make sure OpenAI is imported correctly
-
-def generate_cover_letter(job_title, company, job_description, existing_letter):
     client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])  # Use new OpenAI client
 
     prompt = f"""
@@ -38,7 +32,7 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
     Rewrite the cover letter to make it highly relevant and impactful.
     """
 
-    response = client.chat.completions.create(  # Use correct API call
+    response = client.chat.completions.create(  # Use correct OpenAI API call
         model="gpt-4",  
         messages=[
             {"role": "system", "content": "You are a professional resume and cover letter writer."},
@@ -48,7 +42,6 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
     )
 
     return response.choices[0].message.content  # Correct response handling
-
 
 # Function to generate a PDF
 def generate_pdf(text, filename):
@@ -92,3 +85,4 @@ if st.button("Generate Cover Letter & Resume"):
 
 if __name__ == "__main__":
     st.write("App loaded successfully!")  # Helps verify if the app runs
+
