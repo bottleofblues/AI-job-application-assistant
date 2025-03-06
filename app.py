@@ -89,3 +89,6 @@ if st.button("Generate Cover Letter & Resume"):
         st.success("🎉 Your cover letter is ready! Resume update is the next step.")
     else:
         st.error("Please provide a LinkedIn job posting URL.")
+
+if __name__ == "__main__":
+    st.write("App loaded successfully!")  # Helps verify if the app runs
