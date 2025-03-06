@@ -33,7 +33,7 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
     """
 
     response = client.chat.completions.create(  # Use correct OpenAI API call
-        model="gpt-4",  
+        model="gpt-3.5-turbo",  
         messages=[
             {"role": "system", "content": "You are a professional resume and cover letter writer."},
             {"role": "user", "content": prompt}
