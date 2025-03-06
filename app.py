@@ -18,7 +18,11 @@ def scrape_linkedin_job(url):
 
 # Function to generate a cover letter
 def generate_cover_letter(job_title, company, job_description, existing_letter):
-    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+    import openai  # Make sure OpenAI is properly imported
+
+def generate_cover_letter(job_title, company, job_description, existing_letter):
+    openai.api_key = st.secrets["OPENAI_API_KEY"]  # Correct way to retrieve API key
+
     prompt = f"""
     Based on the following job details, tailor this cover letter accordingly:
     Job Title: {job_title}
@@ -30,9 +34,17 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
 
     Rewrite the cover letter to make it highly relevant and impactful.
     """
-    
-    response = client.Completion.create(model="gpt-4", prompt=prompt, max_tokens=500)
-    return response["choices"][0]["text"]
+
+    response = openai.ChatCompletion.create(  # Corrected API call
+        model="gpt-4",  # Ensure correct model usage
+        messages=[
+            {"role": "system", "content": "You are a professional resume and cover letter writer."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=500
+    )
+
+    return response["choices"][0]["message"]["content"]  # Corrected response handling
 
 # Function to generate a PDF
 def generate_pdf(text, filename):
