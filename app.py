@@ -1,3 +1,4 @@
+import openai  # Ensure OpenAI is properly imported
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
