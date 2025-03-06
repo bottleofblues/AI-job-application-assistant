@@ -67,8 +67,8 @@ if st.button("Generate Cover Letter & Resume"):
         if not existing_cover_letter:
             existing_cover_letter = "Dear Hiring Manager, I'm excited to apply for this role..."
         
-        # Generate Cover Letter
-        new_cover_letter = generate_cover_letter(job_title, company, job_desc, existing_cover_letter)
+        # Temporarily disable OpenAI call
+new_cover_letter = "This is a test cover letter. The AI function is disabled."
 
         # Display & Download Cover Letter
         st.subheader("📃 Your Tailored Cover Letter:")
