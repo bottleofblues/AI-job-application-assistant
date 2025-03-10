@@ -47,23 +47,12 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-def generate_pdf(text, filename):
-    c = canvas.Canvas(filename, pagesize=letter)
-    c.setFont("Helvetica", 12)
-    y_position = 750  # Starting position
+from docx import Document
 
-    # Split text into lines to prevent overflow
-    lines = text.split("\n")
-    for line in lines:
-        c.drawString(100, y_position, line[:100])  # Limits line width
-        y_position -= 20  # Move down
-
-        # Prevent writing off the page
-        if y_position < 50:
-            c.showPage()  # Create a new page
-            y_position = 750
-
-    c.save()
+def generate_docx(text, filename):
+    doc = Document()
+    doc.add_paragraph(text)  # Add the cover letter text
+    doc.save(filename)  # Save as .docx
 
 # Streamlit UI
 st.title("📄 AI Job Application Assistant")
