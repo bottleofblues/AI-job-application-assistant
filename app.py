@@ -2,7 +2,8 @@ import openai  # Ensure OpenAI is properly imported
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
-import pdfkit
+
+from docx import Document  # Import for generating .docx files
 
 # Function to scrape job details
 def scrape_linkedin_job(url):
@@ -43,12 +44,7 @@ def generate_cover_letter(job_title, company, job_description, existing_letter):
 
     return response.choices[0].message.content  # Correct response handling
 
-# Function to generate a PDF
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-
-from docx import Document
-
+# Function to generate a .docx file (Pages-compatible)
 def generate_docx(text, filename):
     doc = Document()
     doc.add_paragraph(text)  # Add the cover letter text
@@ -74,26 +70,31 @@ if st.button("Generate Cover Letter & Resume"):
         if not existing_cover_letter:
             existing_cover_letter = "Dear Hiring Manager, I'm excited to apply for this role..."
         
+        # Generate Cover Letter
         new_cover_letter = generate_cover_letter(job_title, company, job_desc, existing_cover_letter)
 
-        # Display & Download Cover Letter
+        # Display Cover Letter
         st.subheader("📃 Your Tailored Cover Letter:")
         st.text_area("AI-Generated Cover Letter:", new_cover_letter, height=300)
 
-        # Generate PDF
+        # Generate .docx file
         cover_letter_docx = "Cover_Letter.docx"
-generate_docx(new_cover_letter, cover_letter_docx)
-st.download_button(
-    label="📥 Download Cover Letter (Pages-Compatible .docx)", 
-    data=open(cover_letter_docx, "rb").read(), 
-    file_name=cover_letter_docx, 
-    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-)
+        generate_docx(new_cover_letter, cover_letter_docx)
 
-st.success("🎉 Your cover letter is ready! Resume update is the next step.")
-else:
-    st.error("Please provide a LinkedIn job posting URL.")
+        # Provide a download button for the .docx file
+        with open(cover_letter_docx, "rb") as file:
+            st.download_button(
+                label="📥 Download Cover Letter (Pages-Compatible .docx)", 
+                data=file, 
+                file_name=cover_letter_docx, 
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+
+        st.success("🎉 Your cover letter is ready! Resume update is the next step.")
+    else:
+        st.error("Please provide a LinkedIn job posting URL.")
 
 if __name__ == "__main__":
     st.write("App loaded successfully!")  # Helps verify if the app runs
+
 
