@@ -83,14 +83,16 @@ if st.button("Generate Cover Letter & Resume"):
         # Generate PDF
         cover_letter_docx = "Cover_Letter.docx"
 generate_docx(new_cover_letter, cover_letter_docx)
-        st.download_button(label="📥 Download Cover Letter (Pages-Compatible .docx)", 
-                   data=open(cover_letter_docx, "rb").read(), 
-                   file_name=cover_letter_docx, 
-                   mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+st.download_button(
+    label="📥 Download Cover Letter (Pages-Compatible .docx)", 
+    data=open(cover_letter_docx, "rb").read(), 
+    file_name=cover_letter_docx, 
+    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+)
 
-        st.success("🎉 Your cover letter is ready! Resume update is the next step.")
-    else:
-        st.error("Please provide a LinkedIn job posting URL.")
+st.success("🎉 Your cover letter is ready! Resume update is the next step.")
+else:
+    st.error("Please provide a LinkedIn job posting URL.")
 
 if __name__ == "__main__":
     st.write("App loaded successfully!")  # Helps verify if the app runs
