@@ -81,9 +81,12 @@ if st.button("Generate Cover Letter & Resume"):
         st.text_area("AI-Generated Cover Letter:", new_cover_letter, height=300)
 
         # Generate PDF
-        cover_letter_pdf = "Cover_Letter.pdf"
-        generate_pdf(new_cover_letter, cover_letter_pdf)
-        st.download_button(label="📥 Download Cover Letter (PDF)", data=open(cover_letter_pdf, "rb").read(), file_name=cover_letter_pdf, mime="application/pdf")
+        cover_letter_docx = "Cover_Letter.docx"
+generate_docx(new_cover_letter, cover_letter_docx)
+        st.download_button(label="📥 Download Cover Letter (Pages-Compatible .docx)", 
+                   data=open(cover_letter_docx, "rb").read(), 
+                   file_name=cover_letter_docx, 
+                   mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
         st.success("🎉 Your cover letter is ready! Resume update is the next step.")
     else:
